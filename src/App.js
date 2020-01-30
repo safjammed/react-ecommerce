@@ -4,6 +4,8 @@ import './App.css';
 
 import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component';
+import Header from './components/header/header.component';
+import SignInSignUpPage from './pages/signin-signup/signin-signup.component';
 
 const HatsPage = () => (
   <div>
@@ -17,11 +19,13 @@ const NotFOund = ()=> (<div>
 
 function App() {
   return (
-    <div >    
+    <div >
+      <Header/>      
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route path='/hats' component={HatsPage} />        
         <Route path='/shop' component={ShopPage} />        
+        <Route path='/signin' component={SignInSignUpPage} />        
         <Route component={NotFOund}/>
       </Switch>
     </div>    
