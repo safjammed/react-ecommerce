@@ -6,6 +6,7 @@ import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInSignUpPage from './pages/signin-signup/signin-signup.component';
+import { auth } from './firebase/firebase.utils';
 
 const HatsPage = () => (
   <div>
@@ -17,19 +18,41 @@ const NotFOund = ()=> (<div>
   <h1>404 - not found</h1>
 </div>);
 
-function App() {
-  return (
-    <div >
-      <Header/>      
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/hats' component={HatsPage} />        
-        <Route path='/shop' component={ShopPage} />        
-        <Route path='/signin' component={SignInSignUpPage} />        
-        <Route component={NotFOund}/>
-      </Switch>
-    </div>    
-  );
+class App extends React.Component {
+  constructor(){
+    super();
+    this.state= {
+      currentUser: null
+    };
+  }
+  unsubscribeFromAuth = null;
+
+  componentDidMount(){
+    auth.onAuthStateChanged(user => {
+      this.setState({currentUser:user})
+      console.log({user});
+    });
+  }
+
+  componentWillUnmount(){
+    this.unsubscribeFromAuth();
+  }
+
+  render(){
+    return (
+      <div >      
+        <Header/>      
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/hats' component={HatsPage} />        
+          <Route path='/shop' component={ShopPage} />        
+          <Route path='/signin' component={SignInSignUpPage} />        
+          <Route component={NotFOund}/>
+        </Switch>
+      </div>    
+    );
+  }
+ 
 }
 
 export default App;
