@@ -10,11 +10,11 @@ import './sign-in.styles.scss';
 
 class SignIn extends Component {
     constructor(){
-        super();
+        super();        
         this.state={
             email: '',
             password: ''
-        }
+        }   
     }
     handleSubmit =  (event) =>{
         event.preventDefault();
@@ -52,8 +52,10 @@ class SignIn extends Component {
                         value={this.state.password} 
                         required
                     />
-                    <CustomButton type="submit">Submit Form</CustomButton> 
-                    <CustomButton onClick={signInWithGoogle}> Sign In with Google</CustomButton>
+                    <div className="buttons">
+                        <CustomButton type="submit">Submit Form</CustomButton> 
+                        <CustomButton onClick={signInWithGoogle} isGoogleSignIn > Sign In with Google</CustomButton>
+                    </div>
                 </form>
             </div>
         );
