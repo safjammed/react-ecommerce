@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import './App.css';
 
 import HomePage from './pages/homepage/homepage.component'
@@ -27,7 +27,7 @@ class App extends React.Component {
     const {setCurrentUser} = this.props;
     //if user attempted auth
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      //if user logged in
+      //if user logged in successfully
       if (userAuth){
         //get user data and save if the user is not saved
         //this will also create a on snapshot event on the returned userRef
@@ -45,6 +45,7 @@ class App extends React.Component {
         });
       }
       console.log(userAuth);
+      // set 
       setCurrentUser(userAuth);      
     });
   }
@@ -61,7 +62,7 @@ class App extends React.Component {
           <Route exact path='/' component={HomePage} />
           <Route path='/hats' component={HatsPage} />        
           <Route path='/shop' component={ShopPage} />        
-          <Route path='/signin' component={SignInSignUpPage} />        
+          <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/'/>) : (<SignInSignUpPage/>)}  />        
           <Route component={NotFOund}/>
         </Switch>
       </div>    
@@ -70,10 +71,14 @@ class App extends React.Component {
  
 }
 
+const mapStateToProps = ({user}) => ({
+  currentUser : user.currentUser
+});
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser : user => dispatch(setCurrentUser(user))
 });
 
 //we dont need mapstatetoprops because it doesnt need to read anything from the state
 // we need dispatch of setCurrentUser from user.action.js
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);
