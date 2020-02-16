@@ -1,6 +1,7 @@
 
 import userReducer from "./user/user.reducer";
 import { combineReducers } from "redux";
+import cartReducer from "./cart/cart.reducer";
 
 /**
 * Root state is a one big onjects
@@ -9,5 +10,6 @@ import { combineReducers } from "redux";
 * the applicaitons 
 */
 export default combineReducers({
-    user: userReducer
+    user: userReducer,
+    cart: cartReducer
 })
