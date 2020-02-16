@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Swal from 'sweetalert2';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -26,7 +26,7 @@ class SignIn extends Component {
                 email: '',
                 password: ''
             });
-            
+            Swal.fire('Welcome Back', 'You have successfully logged in!', 'success');
         } catch (error) {
             console.error(error);
         }

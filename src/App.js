@@ -7,6 +7,8 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInSignUpPage from './pages/signin-signup/signin-signup.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.action';
 
 const HatsPage = () => (
   <div>
@@ -19,15 +21,10 @@ const NotFOund = ()=> (<div>
 </div>);
 
 class App extends React.Component {
-  constructor(){
-    super();
-    this.state= {
-      currentUser: null
-    };
-  }
   unsubscribeFromAuth = null;
 
   componentDidMount(){
+    const {setCurrentUser} = this.props;
     //if user attempted auth
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //if user logged in
@@ -40,16 +37,15 @@ class App extends React.Component {
         //if the user snapshot is requested
        userRef.onSnapshot(snapshot => {
          //log the user in, change the state
-          this.setState({
-            currentUser:{
+          setCurrentUser({
               id : snapshot.id,
-              ...snapshot.data()
-            }
+              ...snapshot.data()            
           });  
           // console.log(this.state);        
         });
       }
-      this.setState({currentUser:userAuth});      
+      console.log(userAuth);
+      setCurrentUser(userAuth);      
     });
   }
 
@@ -60,7 +56,7 @@ class App extends React.Component {
   render(){
     return (
       <div >
-        <Header currentUser = {this.state.currentUser}/>      
+        <Header />      
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/hats' component={HatsPage} />        
@@ -74,4 +70,10 @@ class App extends React.Component {
  
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser : user => dispatch(setCurrentUser(user))
+});
+
+//we dont need mapstatetoprops because it doesnt need to read anything from the state
+// we need dispatch of setCurrentUser from user.action.js
+export default connect(null,mapDispatchToProps)(App);

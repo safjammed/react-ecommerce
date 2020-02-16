@@ -6,6 +6,7 @@ import {auth} from '../../firebase/firebase.utils';
 import {ReactComponent as Logo} from '../../assets/crown.svg'
 
 import './header.styles.scss';
+import { connect } from 'react-redux';
 const Header = ({currentUser}) => (
     <div className="header">
         <Link to="/" className='logo-container'>
@@ -27,4 +28,13 @@ const Header = ({currentUser}) => (
         </div>
     </div>
 );
-export default Header;
+
+/**
+ * the state is the root reducer iself
+ * user is from the key of rootReducer.js
+ * currentUser is taken from userReducer.js
+ */
+const mapStateToProps = (state) =>({
+    currentUser : state.user.currentUser
+})
+export default connect(mapStateToProps)(Header);

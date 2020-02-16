@@ -5,6 +5,7 @@ import './sign-up.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 import { createUserProfileDocument, auth } from '../../firebase/firebase.utils';
+import Swal from 'sweetalert2';
 
 class SignUp extends Component{
     constructor(){
@@ -16,30 +17,40 @@ class SignUp extends Component{
             confirmPassword: ''
         }
     }
+    //handle form submission
     handleSubmit= async event => {
+        //prevent browser automatic submission
         event.preventDefault();
+        //decontruct the state where the values reside
         const {displayName, email, password, confirmPassword} = this.state;
+        // validate password
         if(password !== confirmPassword){
-            alert ('Passwords Dont match');
+            Swal.fire('Oops!', 'Passwords Dont match', 'error');            
             return;
         }
 
         try{
+            // submit data to fire base
             const {user} = await auth.createUserWithEmailAndPassword(email, password);
+            // save the user in the firestore database
             await createUserProfileDocument(user, {displayName});
-
+            //set state to null so that the form resets
             this.setState({
                 displayName: '',
                 email: '',
                 password: '',
                 confirmPassword: ''
-            })
+            });
+
+            // Notify user of successful sign up
+            Swal.fire('Sign Up Complete!', 'You can now log in', 'success');
         }catch(err){
             console.error(err);
         }
 
     }
 
+    // universal input change handler
     handleChange = event => {
         const {name, value} = event.target;
         this.setState({
