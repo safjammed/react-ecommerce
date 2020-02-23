@@ -28,7 +28,7 @@ class SignIn extends Component {
             });
             Swal.fire('Welcome Back', 'You have successfully logged in!', 'success');
         } catch (error) {
-            console.error(error);
+            console.error("yoyo",error);
         }
         
     }
