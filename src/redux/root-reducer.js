@@ -1,7 +1,21 @@
 
-import userReducer from "./user/user.reducer";
 import { combineReducers } from "redux";
+import {persistReducer} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+
+import userReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
+
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    // user is being handled by firebase
+    // we only need cart data to persist
+    whitelist: ['cart']
+}
+
 
 /**
 * Root state is a one big onjects
@@ -9,7 +23,9 @@ import cartReducer from "./cart/cart.reducer";
 * the reducer represents the state of 
 * the applicaitons 
 */
-export default combineReducers({
+const rootReducer = combineReducers({
     user: userReducer,
     cart: cartReducer
-})
+});
+
+export default persistReducer(persistConfig, rootReducer);
