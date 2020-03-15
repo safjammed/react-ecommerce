@@ -14,13 +14,6 @@ import { setCurrentUser } from './redux/user/user.action';
 import { selectCurretUser } from './redux/user/user.selector';
 import { createStructuredSelector } from 'reselect';
 
-
-const HatsPage = () => (
-  <div>
-    <h1>HATS PAGE</h1>
-  </div> 
-);
-
 const NotFOund = ()=> (<div>
   <h1>404 - not found</h1>
 </div>);
@@ -64,8 +57,7 @@ class App extends React.Component {
       <div >
         <Header />      
         <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/hats' component={HatsPage} />        
+          <Route exact path='/' component={HomePage} />          
           <Route path='/shop' component={ShopPage} />        
           <Route exact path='/checkout' component={CheckoutPage}/>
           <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/'/>) : (<SignInSignUpPage/>)}  />        
