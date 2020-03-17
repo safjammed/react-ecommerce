@@ -8,6 +8,10 @@ export const selectCollections = createSelector(
     shop => shop.collections
 );
 
+export const selectCollectionsForPreview = createSelector(
+    [selectCollections],
+    collections => Object.keys(collections).map(key => collections[key])
+);
 
 // FInd collection.id matching the url parameter of our collection id map, below is needed for array type( not normalized) shop data if collection id is extracted instead pf routename
 /* const COLLECTION_ID_MAP = {
