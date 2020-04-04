@@ -6,7 +6,12 @@ import rootReducer from "./root-reducer";
 /** Store expects middleware as an array 
  * so that multiple middlewares can be implemented
  */
-const middlewares = [logger];
+const middlewares = [];
+
+if(process.env.NODE_ENV === 'development'){
+    middlewares.push(logger)
+}
+
 
 /**
  * ...middlewares is for scalability 
