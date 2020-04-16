@@ -23,6 +23,8 @@ class App extends React.Component {
 
   componentDidMount(){
     const {setCurrentUser} = this.props;
+
+    
     //if user attempted auth
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //if user logged in successfully
